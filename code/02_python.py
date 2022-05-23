@@ -112,6 +112,9 @@ roster_dict = {'PF': 'kevin durant',
 roster_dict['PF']
 roster_dict['C'] = 'deandre jordan'
 
+pos  = 'PF'
+roster_dict[pos]
+
 # unpacking
 sg, pg = ['kyrie irving', 'james harden']
 
@@ -172,6 +175,12 @@ roster_k_only = [
     x for x in roster_list if x.startswith('k')]
 roster_k_only
 
+'kevin durant'.startswith('k')
+
+'james harden'.startswith('k')
+
+'kyrie irving'.startswith('k')
+
 roster_k_only_title = [
     x.title() for x in roster_list if x.startswith('k')]
 roster_k_only_title
@@ -194,6 +203,11 @@ sum([salary for _, salary in salary_per_player.items()])
 ###########
 len(['kevin durant', 'james harden', 'kyrie irving'])
 
+pts_per_3 = len(['kevin durant', 'james harden', 'kyrie irving'])
+pts_per_3
+
+4 + len(['kevin durant', 'james harden', 'kyrie irving'])
+
 def pts(fg2, fg3, ft):
     """
     multi line strings in python are between three double quotes
@@ -205,7 +219,6 @@ def pts(fg2, fg3, ft):
     """
     return fg2*2 + fg3*3 + ft*1
 
-pts(8, 4, 5)
 
 # this gives an error: fg2 is only defined inside pts
 # print(fg2)
@@ -240,39 +253,44 @@ is_player_on_team('jared dudley', roster_list)
 
 roster_list
 
-#############################
-# default values in functions
-#############################
+# function arguments
+## Positional vs Keyword Arguments
+
+pts(8, 4, 5)
+pts(8, 5, 4)  # order matters!
+
+pts?
+
+pts(fg3=4, fg2=8, ft=5)  # keyword arguments
+pts(8, 4, ft=5)
+
+# error: keyword arguments can't come before positional arguments
+# pts(ft=5, 8, 4)
+
+## Default Values for Arguments
 
 # error: leaving off a an argument
 # pts(4, 2)
 
-def pts_w_default(fg2=0, fg3=0, ft=0):
+def pts_w_default(fg2, fg3, ft=0):
     """
     this function takes number of 2 point fgs, 3 point fgs, and free throws and
     returns total points scored
     """
     return fg2*2 + fg3*3 + ft*1
 
-pts_w_default(4, 2)
-pts_w_default()
+pts_w_default(8, 4)
 
-def pts2(fg2=0, fg3=0, ft=0, pts_per_3=3):
-    """
-    takes number of receiving: yards, receptions and touchdowns AND points per
-    reception and returns fantasy points scored
-    """
-    return fg2*2 + fg3*pts_per_3 + ft*1
+# error: leaving out required argument
+# pts_w_default(8)
 
-pts2(4, 2, 2)  # not doing what we want
-
-4*2 + 4*1 + 0.5*6
-
-pts2(4, 2, 0, 2)  # solution 1
-pts2(4, 2, pts_per_3=2)  # solution 2
-
-# error: can't put key word argument before positional
-# pts2(pts_per_3=2, 4, 2)
+# error: required arguments need to come first
+# def pts_w_default_wrong(fg2=0, fg3, ft=0):
+#     """
+#     this function takes number of 2 point fgs, 3 point fgs, and free throws and
+#     returns total points scored
+#     """
+#     return fg2*2 + fg3*3 + ft*1
 
 #####################################
 # functions that take other functions
@@ -315,5 +333,5 @@ from os import path
 
 # change this to the location of your data
 DATA_DIR = '/Users/nathan/nba-book/data'
-path.join(DATA_DIR, 'adp_2017.csv')
-os.path.join(DATA_DIR, 'adp_2017.csv')  # alt if we didn't want to import path
+path.join(DATA_DIR, 'shot.csv')
+os.path.join(DATA_DIR, 'shot.csv')  # alt if we didn't want to import path
