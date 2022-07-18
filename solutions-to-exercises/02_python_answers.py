@@ -72,8 +72,8 @@ def is_good_score(score):
     else:
         return f"{score}'s not that good"
 
-commentary(90)
-commentary(130)
+is_good_score(90)
+is_good_score(130)
 
 ###############################################################################
 # 2.7
@@ -101,6 +101,7 @@ def toggle3(info):
     info['is_3pt'] = not info['is_3pt']
     return info
 
+shot_info
 toggle3(shot_info)
 
 ###############################################################################
@@ -145,7 +146,7 @@ roster_dict = {'PF': 'kevin durant',
 ###############################################################################
 # a
 def mapper(my_list, my_function):
-  return [my_function(x) for x in my_list]
+    return [my_function(x) for x in my_list]
 
 # b
 list_of_n_3pt_made = [5, 6, 1, 0, 4, 4]
