@@ -37,7 +37,7 @@ games.head()
 #######
 # 3.0.4
 #######
-type(games.sort_values('home_pts'))  # it's a DataFfame
+type(games.sort_values('home_pts'))  # it's a DataFrame
 
 #######
 # 3.0.5
@@ -203,7 +203,8 @@ dftg = pd.read_csv(path.join(DATA_DIR, 'team_games.csv'))
 # 3.3.2
 #######
 # a
-dftg_chi1 = dftg.loc[dftg['team'] == 'CHI', ['team', 'date', 'pts', 'fgm', 'fga']]
+dftg_chi1 = dftg.loc[dftg['team'] == 'CHI',
+                ['team', 'date', 'pts', 'fgm', 'fga']]
 dftg_chi1.head()
 
 # b
@@ -261,7 +262,7 @@ dftg_no_desc2 = dftg.query("three_pt_desc.isnull()")
 Usually you can only shift your data from more (play by play) to less (game)
 granular, which necessarily results in a loss of information. If I go from
 knowing whether or not Lebron made every single shot to just knowing how many
-points he scored totak, that's a loss of information.
+points he scored total, that's a loss of information.
 """
 
 #######
@@ -272,23 +273,22 @@ points he scored totak, that's a loss of information.
 import pandas as pd
 from os import path
 
-DATA_DIR = '/Users/nathan/fantasybook/data'
-dftg = pd.read_csv(path.join(DATA_DIR, 'play_data_sample.csv'))
+DATA_DIR = './data'
+dftg = pd.read_csv(path.join(DATA_DIR, 'team_games.csv'))
 
 # b
-(dftg
-.groupby('team')['pts'].mean())
+dftg.groupby('team')['pts'].mean()
 
 # c
 dftg['gt_100'] = dftg['pts'] >= 100
 
-(dftg
-.groupby('team')['gt_100'].mean())
+dftg.groupby('team')['gt_100'].mean()
 
 # d
 dftg['gt_150'] = dftg['pts'] >= 150
-(dftg
-.groupby('team')['gt_150'].any())
+dftg.groupby('team')['gt_150'].any()
+
+dftg.groupby('team')['gt_150'].any().sum()
 
 # e
 
@@ -365,6 +365,8 @@ CHA    100.0  107.0    37.0   ...     13.0     34.0  34.0  42  23
 CHI    103.0  114.0    39.0   ...     14.0     36.0  34.0  43  22
 """
 
+dftg3.unstack().head()
+
 ###############################################################################
 # COMBINING DATAFRAMES
 ###############################################################################
@@ -391,6 +393,7 @@ df_comb2 = pd.concat([df_pts.set_index(['player_id', 'game_id']),
                       df_reb.set_index(['player_id', 'game_id']),
                       df_def.set_index(['player_id', 'game_id'])], join='outer',
                      axis=1)
+
 df_comb2 = df_comb2.fillna(0)
 
 # d
