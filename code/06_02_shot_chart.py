@@ -40,7 +40,7 @@ g.set(xlim=(-250, 250), ylim=(-50, 400), yticks=[], xticks=[], xlabel=None,
 g.despine(left=True, bottom=True)
 
 # adding background
-map_img = mpimg.imread('./data/nba_court.jpg')
+map_img = mpimg.imread(path.join(DATA_DIR, 'nba_court.jpg'))
 
 g = sns.relplot(data=dfs, x='x', y='y', kind='scatter', s=5)
 g.set(xlim=(-250, 250), ylim=(-50, 400), yticks=[], xticks=[], xlabel=None,
