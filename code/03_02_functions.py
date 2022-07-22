@@ -5,12 +5,10 @@ from os import path
 # stored
 # on Windows it might be something like 'C:/mydir'
 
-BB = '/Users/nathanbraun/fantasymath/basketball/nba_api/data'
-SO = '/Users/nathanbraun/fantasymath/soccer/worldcup/data'
-HY = '/Users/nathanbraun/fantasymath/hockey/data'
+DATA_DIR = './data'
 
 # load player-game data
-pg = pd.read_csv(path.join(BB, 'player_game.csv'))
+pg = pd.read_csv(path.join(DATA_DIR, 'player_game.csv'))
 
 pg[['game_id', 'player_id', 'date']] = (
     pg[['game_id', 'player_id', 'date']].astype(str))
@@ -34,15 +32,16 @@ pg['cold_shooting'].sum()
 
 (pg['min'] > 0).all()
 
-pg['center_w_five_3s'] = (pg['pos'] == 'Center') & (pg['fg3m'] >= 5)
+(pg[['pts', 'ast', 'reb', 'stl', 'blk']] >= 10).any(axis=1)
 
-pg['center_w_five_3s'].mean()
-pg['center_w_five_3s'].sum()
+pg['triple_double'] = ((pg[['pts', 'ast', 'reb', 'stl', 'blk']] >= 10)
+                       .sum(axis=1) >= 3)
 
-(pg[['pts', 'ast', 'reb', 'stl', 'blk']] > 10).any(axis=1)
+(pg[['pts', 'ast', 'reb', 'stl', 'blk']] >= 10).head()
+(pg[['pts', 'ast', 'reb', 'stl', 'blk']] >= 10).sum(axis=1).head()
+((pg[['pts', 'ast', 'reb', 'stl', 'blk']] >= 10).sum(axis=1) >= 3).head()
 
-pg['triple_double'] = ((pg[['pts', 'ast', 'reb', 'stl', 'blk']] > 10)
-                       .sum(axis=1) == 3)
+pg['triple_double'].sum()
 
 # Other misc built-in summary functions
 pg['pos'].value_counts()

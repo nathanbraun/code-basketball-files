@@ -2,7 +2,7 @@ import pandas as pd
 import statsmodels.formula.api as smf
 from os import path
 
-DATA_DIR = '/Users/nathanbraun/fantasymath/basketball/nba_api/data'
+DATA_DIR = './data'
 
 ###################
 # linear regression
@@ -32,5 +32,15 @@ prob_of_make(30)
 # process
 
 df['made_hat'] = results.predict(df)
-df[['made', 'made_hat']].head(10)
+df[['made', 'made_hat']].head()
 
+model = smf.ols(formula='made ~ dist + dist_sq + value', data=df)
+results = model.fit()
+
+model = smf.ols(formula='made ~ dist + dist_sq + C(value)', data=df)
+results = model.fit()
+results.summary2()
+
+model = smf.ols(formula='made ~ dist + dist_sq + value', data=df)
+results = model.fit()
+results.summary2()

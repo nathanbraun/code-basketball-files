@@ -5,12 +5,13 @@ from textwrap import dedent
 import statsmodels.formula.api as smf
 from os import path
 
-DATA_DIR = '/Users/nathanbraun/fantasymath/basketball/nba_api/data'
+DATA_DIR = './data'
 
 df = pd.read_csv(path.join(DATA_DIR, 'shots.csv'))
 
 cats2 = ['layup', 'pullup', 'float', 'dunk', 'hook', 'fadeaway', 'step']
 df['basic'] = df[cats2].sum(axis=1) == 0
+df['dist_sq'] = df['dist'] ** 2
 
 df['shot_type'] = np.nan
 for shot in cats2 + ['basic']:
@@ -30,6 +31,8 @@ model = smf.ols(formula=
 results = model.fit()
 results.summary2()
 
+df.groupby('dunk')['dist'].mean()
+
 # fine but dunks close
 model = smf.ols(formula=
         """
@@ -46,6 +49,12 @@ model = smf.ols(formula=
 results = model.fit()
 results.summary2()
 
+
+0.4913 -0.0055*18.5
+
+0.4913 -0.0055*1 + 0.4273
+0.4913 -0.0055*2 + 0.0669
+
 # interesting stuff with dist too
 
 cats = ['jump', 'hook', 'layup', 'driving', 'dunk', 'alley', 'reverse',
@@ -59,14 +68,24 @@ df['ncats'] = df[cats].sum(axis=1)
 ###############
 pd.get_dummies(df['shot_type']).head()
 
-model = smf.ols(formula="made ~ C(shot_type) + dist", data=df)
+model = smf.ols(formula="made ~ C(shot_type) + dist + dist_sq", data=df)
 results = model.fit()
 results.summary2()
 
 model = smf.ols(
-    formula="made ~ C(shot_type, Treatment(reference='dunk')) + dist", data=df)
+    formula="made ~ C(shot_type, Treatment(reference='layup')) + dist + dist_sq", data=df)
 results = model.fit()
 results.summary2()
+
+b0 = 0.5715
+b_dist = -0.0135
+b_dist2 = 0.0001
+
+b0 + b_dist*25 + b_dist2*(25^2) + 0.0483
+
+b0 + b_dist*15 + b_dist2*(15^2) + 0.0212
+
+b0 + b_dist*3 + b_dist2*(3^2)
 
 ####################
 # squaring variables
@@ -95,9 +114,19 @@ results.summary2()
 #############
 # intractions
 #############
+df['is_layup'] = df['shot_type'] == 'layup'
+
 model = smf.ols(formula=
         """
-        made ~ C(shot_type) + ln_dist + ln_dist:layup
+        made ~ dist + dist:is_layup
+        """, data=df)
+results = model.fit()
+results.summary2()
+
+
+model = smf.ols(formula=
+        """
+        made ~ C(shot_type) + dist + dist:layup
         """, data=df)
 results = model.fit()
 results.summary2()
@@ -114,18 +143,19 @@ results.summary2()
 #######
 model = smf.logit(formula=
         """
-        made ~ dunk + layup + dist + dist:layup
+        made ~ layup + dist + dist:layup
         """, data=df)
 logit_results = model.fit()
 logit_results.summary2()
 
-def prob_made(dist, is_dunk, is_layup):
-    b0, b1, b2, b3, b4 = logit_results.params
-    value = (b0 + b1*is_dunk + b2*is_layup + b3*dist + b4*is_layup*dist)
+def prob_made_logit(dist, is_layup):
+    b0, b1, b2, b3 = logit_results.params
+    value = (b0 + b1*is_layup + b2*dist + b3*is_layup*dist)
     return 1/(1 + math.exp(-value))
 
-prob_made(0, 1, 0)
-prob_made(0, 0, 1)
+prob_made_logit(0, 1)
+prob_made_logit(15, 0)
+prob_made_logit(2, 1)
 
 # have to look at range too
 prob_made(80, 0, 0)

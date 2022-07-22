@@ -5,12 +5,10 @@ from os import path
 # stored
 # on Windows it might be something like 'C:/mydir'
 
-BB = '/Users/nathanbraun/fantasymath/basketball/nba_api/data'
-SO = '/Users/nathanbraun/fantasymath/soccer/worldcup/data'
-HY = '/Users/nathanbraun/fantasymath/hockey/data'
+DATA_DIR = './data'
 
 # load player-game data
-pg = pd.read_csv(path.join(BB, 'player_game.csv'))
+pg = pd.read_csv(path.join(DATA_DIR, 'player_game.csv'))
 
 # book picks up here:
 
@@ -18,7 +16,7 @@ pg = pd.read_csv(path.join(BB, 'player_game.csv'))
 pg['pts_per_shot'] = 2
 pg[['game_id', 'player_id', 'pts_per_shot']].head()
 
-pg['pts_pr_shot'] = 3
+pg['pts_per_shot'] = 3
 pg[['game_id', 'player_id', 'pts_per_shot']].head()
 
 # math and number columns

@@ -9,31 +9,27 @@ import sqlite3
 # only need to run this section once
 
 # handle directories
-BB = '/Users/nathanbraun/fantasymath/basketball/nba_api/data'
-SO = '/Users/nathanbraun/fantasymath/soccer/worldcup/data'
-HY = '/Users/nathanbraun/fantasymath/hockey/data'
+DATA_DIR = './data'
 
 # create connection
-conn = sqlite3.connect(path.join(BB, 'ltcwbb.sqlite'))
+conn = sqlite3.connect(path.join(DATA_DIR, 'basketball-data.sqlite'))
 
 # load csv data
-player_game = pd.read_csv(path.join(BB, 'player_game.csv'))
-player = pd.read_csv(path.join(BB, 'players.csv'))
-
-game = pd.read_csv(path.join(BB, 'games.csv'))
-team = pd.read_csv(path.join(BB, 'teams.csv'))
+player_game = pd.read_csv(path.join(DATA_DIR, 'player_game.csv'))
+player = pd.read_csv(path.join(DATA_DIR, 'players.csv'))
+game = pd.read_csv(path.join(DATA_DIR, 'games.csv'))
+team = pd.read_csv(path.join(DATA_DIR, 'teams.csv'))
 
 # and write it to sql
 player_game.to_sql('player_game', conn, index=False, if_exists='replace')
 player.to_sql('player', conn, index=False, if_exists='replace')
-
 game.to_sql('game', conn, index=False, if_exists='replace')
 team.to_sql('team', conn, index=False, if_exists='replace')
 
 #########
 # Queries
 #########
-conn = sqlite3.connect(path.join(BB, 'ltcwbb.sqlite'))
+conn = sqlite3.connect(path.join(BB, 'basketball-data.sqlite'))
 
 # return entire player table
 df = pd.read_sql(
@@ -89,6 +85,7 @@ df = pd.read_sql(
     FROM player
     WHERE school IN ('North Carolina', 'Duke')
     """, conn)
+df.head()
 
 # negation with NOT
 df = pd.read_sql(
@@ -97,6 +94,7 @@ df = pd.read_sql(
     FROM player
     WHERE school NOT IN ('North Carolina', 'Duke')
     """, conn)
+df.head()
 
 #########
 # joining
@@ -241,7 +239,7 @@ df.head()
 
 df = pd.read_sql(
     """
-    SELECT a.date, a.team, a.opp, a.first, a.last
+    SELECT a.date, a.team, a.opp, a.first, a.last, b.pts, b.plus_minus
     FROM
         (SELECT game_id, date, home as team, away as opp, player_id, player.name, last, first
         FROM game, player
@@ -257,16 +255,16 @@ df = pd.read_sql(
 
 df.query("last == 'Redick'")
 
-df = pd.read_sql(
-    """
-    SELECT game_id, home as team, first, last
-    FROM game, player
-    WHERE
-        game.home = player.team
-    UNION
-    SELECT game_id, home as team, first, last
-    FROM game, player
-    WHERE
-        game.away = player.team
-    """, conn)
+# df = pd.read_sql(
+#     """
+#     SELECT game_id, home as team, first, last
+#     FROM game, player
+#     WHERE
+#         game.home = player.team
+#     UNION
+#     SELECT game_id, home as team, first, last
+#     FROM game, player
+#     WHERE
+#         game.away = player.team
+#     """, conn)
 

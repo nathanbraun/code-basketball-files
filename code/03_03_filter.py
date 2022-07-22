@@ -6,20 +6,18 @@ from os import path
 # stored
 # on Windows it might be something like 'C:/mydir'
 
-BB = '/Users/nathanbraun/fantasymath/basketball/nba_api/data'
-SO = '/Users/nathanbraun/fantasymath/soccer/worldcup/data'
-HY = '/Users/nathanbraun/fantasymath/hockey/data'
+DATA_DIR = './data'
 
 # note: we're passing the index_col argument, which immediately setting the
 # index to be the player_id column
 
-dfp = pd.read_csv(path.join(BB, 'players.csv'), index_col='player_id')
+dfp = pd.read_csv(path.join(DATA_DIR, 'players.csv'), index_col='player_id')
 
 # Filtering
 lebron_id = 2544
 dfp.loc[lebron_id]
 
-laker_ids = ([2544, 203076, 203083])
+laker_ids = ([2544, 203076, 201566])
 
 dfp.loc[laker_ids]
 dfp.loc[laker_ids, ['name', 'school', 'height', 'weight']]

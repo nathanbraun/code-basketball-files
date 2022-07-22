@@ -53,16 +53,24 @@ df.head()
 
 # now lets get headers
 # could just do it manually
-parse_row(rows[1])
-
 df.columns = [str(x.string).lower() for x in rows[1].find_all('th')]
 
 str_cols = ['name', 'years']
 float_cols = ['fg%', '3p%', 'ft%', 'ppg']
 int_cols = [x for x in df.columns if not ((x in str_cols) or (x in float_cols))]
 
-df[float_cols] = df[float_cols].apply(pd.to_numeric, errors='coerce')
-df[int_cols] = df[int_cols].apply(pd.to_numeric, errors='coerce')
+df[float_cols] = df[float_cols].astype(float)
+
+# gives an error
+# df[int_cols] = df[float_cols].astype(int)
+
+# fix attempt 1 - commented out because it doesn't work
+# df[int_cols] = pd.to_numeric(df[int_cols], errors='coerce')
+
+# fix attempt 2 - call pd.numeric on one column at a time
+for int_col in int_cols:
+    df[int_col] = pd.to_numeric(df[int_col], errors='coerce')
+
 
 # done
 df.head()
