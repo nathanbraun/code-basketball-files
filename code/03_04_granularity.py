@@ -19,9 +19,9 @@ shots['fgm'] = shots['made']
 # Grouping
 shots.groupby('game_id').sum().head()  # book picks up here
 
-sum_cols = ['fgm', 'fga', 'fg3m', 'fg3a']
+fg_cols = ['fgm', 'fga', 'fg3m', 'fg3a']
 
-shots.groupby('game_id').sum()[sum_cols].head()
+shots.groupby('game_id').sum()[fg_cols].head()
 
 shots.groupby('game_id').agg({
     'value': 'mean',

@@ -55,8 +55,8 @@ pg['not_gt_10_pts_or_assists'] = ~((pg['pts'] > 10) | (pg['ast'] > 10))
 # Applying functions to columns
 def is_w_pac(team):
   """
-  Takes some string named pos ('QB', 'K', 'RT' etc) and checks
-  whether it's a skill position (RB, WR, TE).
+  Takes some string named team ('MIL', 'LAL', 'CHI' etc) and checks
+  whether it's in the Pacific Division.
   """
   return team in ['LAC', 'LAL', 'PHX', 'SAC', 'GSW']
 
