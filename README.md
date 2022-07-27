@@ -23,5 +23,8 @@ If I were using Windows, it might look like this:
 Set these aside for now and we'll pick them up in chapter 2.
 
 ## Changelog
+### v0.0.2 (2022-07-27)
+Fix minor typo.
+
 ### v0.0.1 (2022-07-22)
 Adding this README!
