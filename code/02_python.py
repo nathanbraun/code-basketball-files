@@ -36,7 +36,7 @@ over_under = 216  # int
 fg_percentage = 0.48  # float
 
 starting_c = 'Karl-Anthony Towns'
-starting_pg = "D'Angelo Russel"
+starting_pg = "D'Angelo Russell"
 
 type(starting_c)
 
