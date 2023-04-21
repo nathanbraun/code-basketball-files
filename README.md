@@ -26,7 +26,7 @@ Set these aside for now and we'll pick them up in chapter 2.
 ### v0.1.0 (2023-04-21)
 Heard from a reader (thanks Arnold!) that some of the nbasense API endpoints no
 longer worked, and updated the book to use only the ones that do. Doesn't
-impact things to much since this was mainly for demonstration purposes.
+impact things too much since this was mainly for demonstration purposes.
 
 ### v0.0.4 (2022-12-16)
 Fixed a few typos (thanks Victor!)
