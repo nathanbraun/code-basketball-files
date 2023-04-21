@@ -15,7 +15,7 @@ from nba_api.stats.endpoints.commonplayerinfo import CommonPlayerInfo
 
 from nba_api.stats.endpoints.teamyearbyyearstats import TeamYearByYearStats
 
-teams_df.head()
+team_df.head()
 
 pelicans_id = '1610612740'
 pelicans_data = TeamYearByYearStats(pelicans_id)
