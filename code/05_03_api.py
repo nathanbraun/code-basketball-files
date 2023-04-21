@@ -3,25 +3,6 @@ import json
 from pandas import DataFrame
 import pandas as pd
 
-teams_url = 'http://data.nba.net/prod/v1/2021/teams.json'
-teams_resp = requests.get(teams_url)
-teams_json = teams_resp.json()
-
-# with open('./data/json/teams.json') as f:
-#     teams_json = json.load(f)
-
-teams_json
-teams_json.keys()
-
-type(teams_json)
-
-type(teams_json['league']['standard'])
-
-teams_json['league']['standard'][0]
-
-df_teams = DataFrame(teams_json['league']['standard'])
-df_teams.head()
-
 # roster
 players_url = 'http://data.nba.net/prod/v1/2021/players.json'
 players_resp = requests.get(players_url)
@@ -29,6 +10,16 @@ players_json = players_resp.json()
 
 # with open('./data/json/players.json') as f:
 #     players_json = json.load(f)
+
+players_json
+players_json.keys()
+
+type(players_json)
+
+type(players_json['league']['standard'])
+
+player0 = players_json['league']['standard'][0]
+player0
 
 player0 = players_json['league']['standard'][0]
 
