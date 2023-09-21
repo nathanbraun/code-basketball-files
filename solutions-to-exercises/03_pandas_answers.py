@@ -43,16 +43,16 @@ type(games.sort_values('home_pts'))  # it's a DataFrame
 # 3.0.5
 #######
 # a
-game_simple = games[['date', 'home', 'away', 'home_pts', 'away_pts']]
+games_simple = games[['date', 'home', 'away', 'home_pts', 'away_pts']]
 
 # b
-game_simple = game_simple[['home', 'away', 'date', 'home_pts', 'away_pts']]
+games_simple = games_simple[['home', 'away', 'date', 'home_pts', 'away_pts']]
 
 # c
-game_simple['game_id'] = games['game_id']
+games_simple['game_id'] = games['game_id']
 
 # d
-games.to_csv(path.join(DATA_DIR, 'game_simple.txt'), sep='|')
+games.to_csv(path.join(DATA_DIR, 'games_simple.txt'), sep='|')
 
 ###############################################################################
 # COLUMNS
