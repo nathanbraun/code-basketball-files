@@ -23,6 +23,9 @@ If I were using Windows, it might look like this:
 Set these aside for now and we'll pick them up in chapter 2.
 
 ## Changelog
+### v0.1.1 (2023-09-21)
+Minor clarify fix to exercise 3.0.x (thanks Terrence!)
+
 ### v0.1.0 (2023-04-21)
 Heard from a reader (thanks Arnold!) that some of the nbasense API endpoints no
 longer worked, and updated the book to use only the ones that do. Doesn't
