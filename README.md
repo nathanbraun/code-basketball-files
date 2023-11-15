@@ -23,6 +23,9 @@ If I were using Windows, it might look like this:
 Set these aside for now and we'll pick them up in chapter 2.
 
 ## Changelog
+### v0.1.3 (2023-11-15)
+Fixed some typos.
+
 ### v0.1.1 (2023-09-21)
 Minor clarify fix to exercise 3.0.x (thanks Terence!)
 
