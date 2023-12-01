@@ -23,7 +23,7 @@ If I were using Windows, it might look like this:
 Set these aside for now and we'll pick them up in chapter 2.
 
 ## Changelog
-### v0.1.4 (2023-11-15)
+### v0.1.4 (2023-12-01)
 Fixed some typos and updates (thanks Alex!)
 
 ### v0.1.3 (2023-11-15)
