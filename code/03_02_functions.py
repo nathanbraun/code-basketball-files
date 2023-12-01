@@ -14,7 +14,9 @@ pg[['game_id', 'player_id', 'date']] = (
     pg[['game_id', 'player_id', 'date']].astype(str))
 
 # book picks up here:
-pg.mean()
+pg[['fgm', 'fga', 'fg_pct', 'pts', 'fg3m', 'fg3a', 'fg3_pct']].mean()
+pg[['fgm', 'fga', 'pts', 'fg3m', 'fg3a']].max()
+
 pg.max()
 
 # Axis
