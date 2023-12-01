@@ -54,7 +54,7 @@ dfp.drop_duplicates('pos')
 dfp.loc[~dfp['pos'].duplicated()]
 
 # Combining filtering with changing columns
-dfp['draft_desc'] = np.nan
+dfp['draft_desc'] = ''
 dfp.loc[dfp['draft_round'] == 1, 'draft_desc'] = 'first round'
 dfp.loc[(dfp['draft_round'] == 1) & (dfp['draft_number'] <= 14), 'draft_desc'] = 'lottery'
 dfp.loc[(dfp['draft_round'] == 1) & (dfp['draft_number'] <= 5), 'draft_desc'] = 'top 5'
