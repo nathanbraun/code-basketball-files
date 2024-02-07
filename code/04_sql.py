@@ -29,7 +29,7 @@ team.to_sql('team', conn, index=False, if_exists='replace')
 #########
 # Queries
 #########
-conn = sqlite3.connect(path.join(BB, 'basketball-data.sqlite'))
+conn = sqlite3.connect(path.join(DATA_DIR, 'basketball-data.sqlite'))
 
 # return entire player table
 df = pd.read_sql(

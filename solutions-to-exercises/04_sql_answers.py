@@ -17,7 +17,7 @@ conn = sqlite3.connect(path.join(DATA_DIR, 'basketball-data.sqlite'))
 ###############################################################################
 df  = pd.read_sql(
     """
-    SELECT date, name, fgm, fga, pts
+    SELECT date, name, fgm, fga, pts AS points
     FROM player_game, team
     WHERE team.team = player_game.team AND
     team.division = 'Central'
@@ -28,7 +28,7 @@ df  = pd.read_sql(
 ###############################################################################
 df  = pd.read_sql(
     """
-    SELECT p.first, p.last, date, fgm, fga, pts
+    SELECT p.first, p.last, date, fgm, fga, pts AS points
     FROM player_game AS pg, team AS t, player AS p
     WHERE t.team = pg.team AND
     t.division = 'Central' AND p.player_id = pg.player_id
