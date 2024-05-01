@@ -23,6 +23,11 @@ If I were using Windows, it might look like this:
 Set these aside for now and we'll pick them up in chapter 2.
 
 ## Changelog
+### v0.3.0 (2024-05-01)
+Updated the API chapter again since to reflect fact [Ball Don't
+Lie](https://www.balldontlie.io/#introduction) now requires making a free
+account (it's easy to do). 
+
 ### v0.2.0 (2024-02-07)
 Updated the API chapter since the old API stopped working. Now using [Ball
 Don't Lie](https://www.balldontlie.io/#introduction). Fixed some typos (thanks

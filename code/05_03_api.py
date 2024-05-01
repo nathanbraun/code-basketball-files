@@ -3,9 +3,14 @@ import json
 from pandas import DataFrame
 import pandas as pd
 
+BDL_API_KEY = 'PUT_YOUR_API_KEY_HERE'
+
 # players
-players_url = 'https://www.balldontlie.io/api/v1/players'
-players_resp = requests.get(players_url)
+players_url = 'https://api.balldontlie.io/v1/players'
+
+AUTH_HEADER = {'Authorization': BDL_API_KEY}
+
+players_resp = requests.get(players_url, headers=AUTH_HEADER)
 players_json = players_resp.json()
 
 # with open('./data/json/players.json') as f:
@@ -24,9 +29,12 @@ player0_flat = {key: value for key, value in player0.items() if type(value) not
     in (dict, list)}
 
 player0_flat
+player0['team']
 player0_flat['team_id'] = player0['team']['id']
 player0_flat['team'] = player0['team']['abbreviation']
 player0_flat['conference'] = player0['team']['conference']
+
+player0_flat
 
 def flatten_player(nested):
     flat = {key: value for key, value in nested.items() if type(value) not in
@@ -44,48 +52,68 @@ df_players.head()
 # pagination
 players_json['meta']
 
-players1 = (requests
-    .get('https://www.balldontlie.io/api/v1/players?page=1')
-    .json())
+players25 = (requests
+  .get('https://api.balldontlie.io/v1/players/?cursor=25', headers=AUTH_HEADER)
+  .json())
 
-players1['meta']
+players25['meta']
 
-players2 = (requests
-    .get('https://www.balldontlie.io/api/v1/players?page=2')
-    .json())
+players50_100 = (requests
+  .get('https://api.balldontlie.io/v1/players/?cursor=25&per_page=100', headers=AUTH_HEADER)
+  .json())
 
-players2['meta']
+len(players50_100['data'])
 
-players2_100 = (requests
-    .get('https://www.balldontlie.io/api/v1/players?page=2&per_page=100')
-    .json())
-
-len(players2_100['data'])
-
-def get_players_page(page):
+def get_players_cursor(cursor):
     players_json = (requests
-        .get(f'https://www.balldontlie.io/api/v1/players?page={page}')
+        .get(f'https://api.balldontlie.io/v1/players/?cursor={cursor}',
+             headers=AUTH_HEADER)
         .json())
     
     return DataFrame([flatten_player(x) for x in players_json['data']])
 
-def get_players_page_wnext(page):
+df25 = get_players_cursor(25)
+df25.head()
+
+# return next cursor too
+
+def get_players_cursor_wnext(cursor):
     players_json = (requests
-        .get(f'https://www.balldontlie.io/api/v1/players?page={page}')
+        .get(f'https://api.balldontlie.io/v1/players/?cursor={cursor}',
+             headers=AUTH_HEADER)
         .json())
     
     return (
         DataFrame([flatten_player(x) for x in players_json['data']]),
-        players_json['meta']['next_page'])
+        players_json['meta']['next_cursor'])
 
-df1 = get_players_page(1)
-df1.head()
+df25, next = get_players_cursor_wnext(25)
+df25.head()
 
-df2 = get_players_page(2)
-df2.head()
+players_json = (requests
+    .get('https://api.balldontlie.io/v1/players/?cursor=100000000',
+         headers=AUTH_HEADER)
+    .json())
+players_json
 
-df1M = get_players_page(1000000)
-df1M
+if 'next_cursor' in players_json['meta']:
+    next = players_json['meta']['next_cursor']
+else:
+    next = None
+
+next = players_json['meta'].get('next_cursor')
+next
+
+def get_players_cursor_wnext2(cursor):
+    players_json = (requests
+        .get(f'https://api.balldontlie.io/v1/players/?cursor={cursor}',
+             headers=AUTH_HEADER)
+        .json())
+    
+    return (
+        DataFrame([flatten_player(x) for x in players_json['data']]),
+        players_json['meta'].get('next_cursor'))
+
 
 i = 0
 while i < 5:
@@ -94,18 +122,17 @@ while i < 5:
 
 df_all_players = DataFrame()
 
-page = 200  # start here - just showing how it works
-df_working_page = get_players_page(page)
+cursor = 200  # start here - just showing how it works
+df_working, next_cursor = get_players_cursor_wnext2(cursor)
 
-while not df_working_page.empty:
+while (next_cursor is not None) and (next_cursor <= 500):
     # add the current df_working_page to the dataframe of all the players
-    df_all_players = pd.concat([df_all_players, df_working_page],
+    df_all_players = pd.concat([df_all_players, df_working],
                                ignore_index=True)
 
     # get the next page of data
-    page = page + 1
-    print(f'getting page {page}')
-    df_working_page = get_players_page(page)
+    print(f'getting cursor {next_cursor}')
+    df_working, next_cursor = get_players_cursor_wnext2(next_cursor)
 
 df_all_players.sample(10)
 df_all_players.shape
@@ -115,13 +142,13 @@ df_all_players.shape
 ################################################################################
 
 ## note: this part isn't meant to be run
-## i (nate) am running this Wed 2/7/24 to save data we'll load above
+## i (nate) am running this Wed 5/1/24 to save data we'll load above
 ## 
 ## including here to make it clearer this saved data above just comes from APIs
 
-# players_url = 'https://www.balldontlie.io/api/v1/players'
+# players_url = 'https://api.balldontlie.io/v1/players'
 
-# players_resp = requests.get(players_url)
+# players_resp = requests.get(players_url, headers=AUTH_HEADER)
 
 # players_json = players_resp.json()
 
