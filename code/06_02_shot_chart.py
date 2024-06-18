@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from os import path
-import random
 
 pd.options.mode.chained_assignment = None
 %matplotlib qt
@@ -47,7 +46,7 @@ g.set(xlim=(-250, 250), ylim=(-50, 400), yticks=[], xticks=[], xlabel=None,
       ylabel=None)
 g.despine(left=True, bottom=True)
 
-for ax in g.fig.axes:
+for ax in g.figure.axes:
     ax.imshow(map_img, zorder=0, extent=[-250, 250, -30, 400])
 
 # putting in a function
@@ -57,7 +56,7 @@ def shot_chart(dfs, **kwargs):
           ylabel=None)
     g.despine(left=True, bottom=True)
 
-    for ax in g.fig.axes:
+    for ax in g.figure.axes:
         ax.imshow(map_img, zorder=0, extent=[-250, 250, -30, 400])
 
     return g
@@ -86,9 +85,9 @@ g = shot_chart(dfs.query("game_id == 21900002"), hue='made', style='made',
 
 ### Contour Plots
 g = (sns.FacetGrid(dfs, col='shot_type', col_wrap=3)
-     .map(sns.kdeplot, 'x', 'y', alpha=0.5, shade=True)
+     .map(sns.kdeplot, 'x', 'y', alpha=0.5, fill=True)
      .add_legend())
 g.set(yticks=[], xticks=[], xlabel=None, ylabel=None)
 g.despine(left=True, bottom=True)
-for ax in g.fig.axes:
+for ax in g.figure.axes:
     ax.imshow(map_img, zorder=0, extent=[-250, 250, -30, 400])

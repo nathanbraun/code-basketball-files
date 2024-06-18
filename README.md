@@ -23,6 +23,9 @@ If I were using Windows, it might look like this:
 Set these aside for now and we'll pick them up in chapter 2.
 
 ## Changelog
+### v0.4.0 (2024-06-18)
+Updated the seaborn chapter to avoid misc warnings.
+
 ### v0.3.0 (2024-05-01)
 Updated the API chapter again since to reflect fact [Ball Don't
 Lie](https://www.balldontlie.io/#introduction) now requires making a free

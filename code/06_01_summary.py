@@ -1,11 +1,9 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from os import path
 import random
 
-pd.options.mode.chained_assignment = None
 %matplotlib qt
 
 # directories
@@ -21,7 +19,7 @@ dftg = pd.read_csv(path.join(DATA_DIR, 'team_games.csv'))
 cats2 = ['layup', 'pullup', 'float', 'dunk', 'hook', 'fadeaway', 'step']
 dfs['jump'] = dfs[cats2].sum(axis=1) == 0
 
-dfs['shot_type'] = np.nan
+dfs['shot_type'] = pd.NA
 for shot in cats2 + ['jump']:
     dfs.loc[dfs[shot], 'shot_type'] = shot
 
@@ -47,15 +45,15 @@ dfs['dist'].value_counts(normalize=True).sort_index().head(10)
 
 # basic displot
 # all on one line
-g = sns.FacetGrid(dfs).map(sns.kdeplot, 'dist', shade=True)
+g = sns.FacetGrid(dfs).map(sns.kdeplot, 'dist', fill=True)
 
 # on seperate lines so it's clearer it's a two step process
 g = (sns.FacetGrid(dfs)
-     .map(sns.kdeplot, 'dist', shade=True))
+     .map(sns.kdeplot, 'dist', fill=True))
 
 # invert axis
 g = (sns.FacetGrid(dfs)
-     .map(sns.kdeplot, 'dist', shade=True))
+     .map(sns.kdeplot, 'dist', fill=True))
 g.set(xlim=(-5, 40))
 g.ax.invert_xaxis()
 
@@ -78,14 +76,14 @@ dfs.loc[dfs['shot_type'] == 'dunk', 'jdist'] = dfs['dist'].apply(lambda x: x +
         random.gauss(0, 1))
 
 g = (sns.FacetGrid(dfs, hue='shot_type')
-     .map(sns.kdeplot, 'jdist', shade=True))
+     .map(sns.kdeplot, 'jdist', fill=True))
 g.set(xlim=(-5, 40))
 [ax[0].invert_xaxis() for ax in g.axes]
 g.add_legend()
 plt.show()
 
 g = (sns.FacetGrid(dfs, hue='shot_type', col='made')
-     .map(sns.kdeplot, 'jdist', shade=True))
+     .map(sns.kdeplot, 'jdist', fill=True))
 g.set(xlim=(-5, 40))
 [ax[0].invert_xaxis() for ax in g.axes]
 g.add_legend()
@@ -93,7 +91,7 @@ plt.show()
 
 # swap hue, col
 g = (sns.FacetGrid(dfs, col='shot_type', hue='made', col_wrap=3)
-     .map(sns.kdeplot, 'jdist', shade=True))
+     .map(sns.kdeplot, 'jdist', fill=True))
 g.set(xlim=(-5, 40))
 [ax.invert_xaxis() for ax in g.axes]
 g.add_legend()
@@ -115,7 +113,7 @@ plt.show()
 dfg[['date', 'home_team', 'away_team', 'home_pts', 'away_pts']].head()
 
 def home_away_pts_df(df, location):
-    df = df[['date', f'{location}_team', f'{location}_pts']]
+    df = df[['date', f'{location}_team', f'{location}_pts']].copy()
     df.columns = ['date', 'team', 'pts']
     df['location'] = location
     return df
@@ -127,7 +125,7 @@ pts_long = pd.concat([
 
 # now can plot points by scoring system and position
 g = (sns.FacetGrid(pts_long, hue='location')
-     .map(sns.kdeplot, 'pts', shade=True))
+     .map(sns.kdeplot, 'pts', fill=True))
 g.add_legend()
 plt.show()
 
@@ -190,7 +188,7 @@ df_all.head()
 
 # now we can do things like look at scoring by team/bubble
 g = (sns.FacetGrid(df_all, hue='bubble', col='team', col_wrap=5)
-     .map(sns.kdeplot, 'pts', shade=True))
+     .map(sns.kdeplot, 'pts', fill=True))
 g.add_legend()
 
 #################################
@@ -257,15 +255,15 @@ plt.show()
 
 # basic plot
 g = (sns.FacetGrid(dfs, col='shot_type', hue='made')
-     .map(sns.kdeplot, 'dist', shade=True))
+     .map(sns.kdeplot, 'dist', fill=True))
 
 # wrap columns
 g = (sns.FacetGrid(dfs, col='shot_type', hue='made', col_wrap=3)
-     .map(sns.kdeplot, 'dist', shade=True))
+     .map(sns.kdeplot, 'dist', fill=True))
 
 # adding a title
-g.fig.subplots_adjust(top=0.9) # adding a title
-g.fig.suptitle('Distribution of Shot Distances by Type, Made')
+g.figure.subplots_adjust(top=0.9) # adding a title
+g.figure.suptitle('Distribution of Shot Distances by Type, Made')
 
 # modifying options
 g.set(xlim=(-5, 40))

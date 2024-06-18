@@ -24,9 +24,9 @@ dftg = pd.read_csv(path.join(DATA_DIR, 'team_games.csv'))  # play by play data
 # sure to give your plot a title.
 
 g = (sns.FacetGrid(dftg)
-     .map(sns.kdeplot, 'fg3a', shade=True))
-g.fig.subplots_adjust(top=0.9)
-g.fig.suptitle('Distribution of 3 Pt Attempts')
+     .map(sns.kdeplot, 'fg3a', fill=True))
+g.figure.subplots_adjust(top=0.9)
+g.figure.suptitle('Distribution of 3 Pt Attempts')
 g.savefig('./solutions-to-exercises/6-1a.png')
 
 # Now modify your plot to show the distribution of three point attempts by
@@ -35,25 +35,25 @@ g.savefig('./solutions-to-exercises/6-1a.png')
 
 # 6.1b
 g = (sns.FacetGrid(dftg, hue='wl')
-    .map(sns.kdeplot, 'fg3a', shade=True))
-g.fig.subplots_adjust(top=0.9)
-g.fig.suptitle('Distribution of 3 Pt Attempts by Win/Loss B')
+    .map(sns.kdeplot, 'fg3a', fill=True))
+g.figure.subplots_adjust(top=0.9)
+g.figure.suptitle('Distribution of 3 Pt Attempts by Win/Loss B')
 g.savefig('./solutions-to-exercises/6-1b.png')
 
 # 6.1c
 g = (sns.FacetGrid(dftg, col='wl')
-    .map(sns.kdeplot, 'fg3a', shade=True))
-g.fig.subplots_adjust(top=0.8)
-g.fig.suptitle('Distribution of 3 Pt Attempts by Win/Loss C')
+    .map(sns.kdeplot, 'fg3a', fill=True))
+g.figure.subplots_adjust(top=0.8)
+g.figure.suptitle('Distribution of 3 Pt Attempts by Win/Loss C')
 g.savefig('./solutions-to-exercises/6-1c.png')
 
 # (d) Sometimes it's effective to use the multiple keywords ("levers") to
 # display redundant information, experiment with this.
 
 g = (sns.FacetGrid(dftg, col='wl', hue='wl')
-    .map(sns.kdeplot, 'fg3a', shade=True))
-g.fig.subplots_adjust(top=0.8)
-g.fig.suptitle('Distribution of 3 Pt Attempts by Win/Loss D')
+    .map(sns.kdeplot, 'fg3a', fill=True))
+g.figure.subplots_adjust(top=0.8)
+g.figure.suptitle('Distribution of 3 Pt Attempts by Win/Loss D')
 g.savefig('./solutions-to-exercises/6-1d.png')
 
 # (e) Plot the three point attempts by team, with each team is on it's own
@@ -61,9 +61,9 @@ g.savefig('./solutions-to-exercises/6-1d.png')
 # wide row.
 
 g = (sns.FacetGrid(dftg, col='team', col_wrap=6)
-    .map(sns.kdeplot, 'fg3a', shade=True))
-g.fig.subplots_adjust(top=0.9)
-g.fig.suptitle('Distribution of 3 Pt Attempts by Team')
+    .map(sns.kdeplot, 'fg3a', fill=True))
+g.figure.subplots_adjust(top=0.9)
+g.figure.suptitle('Distribution of 3 Pt Attempts by Team')
 g.savefig('./solutions-to-exercises/6-1e.png')
 
 # #### 6.2
@@ -71,8 +71,8 @@ g.savefig('./solutions-to-exercises/6-1e.png')
 # percentage. Again, make sure your plot has a title.
 
 g = sns.relplot(x='fg3a', y='ft_pct', data=dftg)
-g.fig.subplots_adjust(top=0.9)
-g.fig.suptitle('3 Pt Attempts vs. Free Throw %')
+g.figure.subplots_adjust(top=0.9)
+g.figure.suptitle('3 Pt Attempts vs. Free Throw %')
 g.savefig('./solutions-to-exercises/6-2a.png')
 
 # (b) Jitter three point attempts and run the scatter plot again.
@@ -82,8 +82,8 @@ dftg['fg3a_jitter'] = dftg['fg3a'].apply(lambda x: x + random.gauss(0, 1))
 dftg['ft_pct_jitter'] = dftg['ft_pct'].apply(lambda x: x + random.gauss(0, 0.01))
 
 g = sns.relplot(x='fg3a_jitter', y='ft_pct_jitter', data=dftg)
-g.fig.subplots_adjust(top=0.9)
-g.fig.suptitle('3 Pt Attempts vs. Free Throw % Jittered')
+g.figure.subplots_adjust(top=0.9)
+g.figure.suptitle('3 Pt Attempts vs. Free Throw % Jittered')
 g.savefig('./solutions-to-exercises/6-2b.png')
 
 # (c) It's hard to tell whether this cloud of points is moving upward to the
